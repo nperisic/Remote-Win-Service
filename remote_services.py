@@ -1,3 +1,6 @@
+import config
+
+
 def remoteservices(command = 'query', service ):
     '''
     https://ss64.com/nt/sc.html
@@ -7,9 +10,10 @@ def remoteservices(command = 'query', service ):
     >>> s = nexusStartStopStatus()
     4
     '''
-    serverAdressHub = self.configFile['serverAdressHub']
-    usernameMS = self.configFile['usernameMS']
-    passwordMS = self.configFile['passwordMS']
+    configFile = config.get_config() #open config file
+    serverAdressHub = configFile['serverAdressHub']
+    usernameMS = configFile['usernameMS']
+    passwordMS = configFile['passwordMS']
     cp_command = r"net use \\{}\ipc$ {} /user:{} | sc \\{} {} {}".format(serverAdressHub, passwordMS, usernameMS,
                                                                             serverAdressHub, command, service)
     cp_output = subprocess.check_output(cp_command, shell = True)
